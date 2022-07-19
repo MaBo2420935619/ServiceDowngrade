@@ -1,6 +1,7 @@
 package com.mabo.controller;
 
 import com.mabo.block.BlockHandler;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -9,6 +10,7 @@ import javax.annotation.Resource;
 
 @RestController
 @RequestMapping("addEvent")
+@Slf4j
 public class AddEventController {
     @Resource
     private RedisTemplate redisTemplate;
@@ -25,8 +27,10 @@ public class AddEventController {
     @BlockHandler(value = 2,method = "reduceFinal")
     @RequestMapping("reduce")
     public String reduce(@RequestParam("s") String s){
+
         String key="BlockHandler.com.mabo.controller.AddEventController.reduce";
         Object o = redisTemplate.opsForValue().get(key);
+        log.info("reduce，参数"+s+"   请求次数:"+o);
         return "reduce，参数"+s+"   请求次数:"+o;
     }
 
